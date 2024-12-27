@@ -1,0 +1,29 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "file-server-core"
+		},
+		{
+			"path": "file-server"
+		},
+		{
+			"path": "file-client-core"
+		},
+		{
+			"path": "file-client"
+		},
+		{
+			"path": "gb-server"
+		},
+		{
+			"path": "gb-client"
+		},
+		{
+			"path": "file-server-docker"
+		}
+	],
+	"settings": {}
+}

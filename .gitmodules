@@ -22,3 +22,7 @@
 	path = gb-client
 	url = git@github.com:eluinstra/gb-client.git
 	branch = dev
+[submodule "file-server-docker"]
+	path = file-server-docker
+	url = git@github.com:eluinstra/file-server-docker.git
+	branch = dev

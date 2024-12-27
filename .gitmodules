@@ -1,0 +1,24 @@
+[submodule "file-server-core"]
+	path = file-server-core
+	url = git@github.com:eluinstra/file-server-core.git
+	branch = dev
+[submodule "file-server"]
+	path = file-server
+	url = git@github.com:eluinstra/file-server.git
+	branch = dev
+[submodule "file-client-core"]
+	path = file-client-core
+	url = git@github.com:eluinstra/file-client-core.git
+	branch = dev
+[submodule "file-client"]
+	path = file-client
+	url = git@github.com:eluinstra/file-client.git
+	branch = dev
+[submodule "gb-server"]
+	path = gb-server
+	url = git@github.com:eluinstra/gb-server.git
+	branch = dev
+[submodule "gb-client"]
+	path = gb-client
+	url = git@github.com:eluinstra/gb-client.git
+	branch = dev

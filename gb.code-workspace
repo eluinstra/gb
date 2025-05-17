@@ -4,6 +4,9 @@
 			"path": "."
 		},
 		{
+			"path": "file-common"
+		},
+		{
 			"path": "file-server-core"
 		},
 		{

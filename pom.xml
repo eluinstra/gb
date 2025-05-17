@@ -40,6 +40,7 @@
   <modules>
     <module>file-client</module>
     <module>file-client-core</module>
+    <module>file-common</module>
     <module>file-server</module>
     <module>file-server-core</module>
     <module>gb-client</module>
@@ -53,6 +54,16 @@
   </properties>
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcpg-jdk18on</artifactId>
+        <version>1.80</version>
+      </dependency>
+      <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcpkix-jdk18on</artifactId>
+        <version>1.80</version>
+      </dependency>
       <dependency>
         <groupId>commons-cli</groupId>
         <artifactId>commons-cli</artifactId>
@@ -480,7 +491,7 @@
             <aggregate>true</aggregate>
             <licenseSets>
               <licenseSet>
-                <header>${project.basedir}/resources/license/header.txt</header>
+                <header>${maven.multiModuleProjectDirectory}/resources/license/header.txt</header>
                 <includes>
                   <include>pom.xml</include>
                   <include>src/main/java/**/*.java</include>

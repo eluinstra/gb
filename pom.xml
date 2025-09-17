@@ -20,8 +20,9 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>dev.luin.file</groupId>
   <artifactId>file</artifactId>
-  <version>2.0.0-SNAPSHOT</version>
+  <version>${revision}</version>
   <packaging>pom</packaging>
+  <name>File Server</name>
   <url>https://bitbucket.org/eluinstra/gb</url>
   <licenses>
     <license>
@@ -50,6 +51,7 @@
     <checkstyle.config.location>${basedir}/resources/reporting/checkstyle.xml</checkstyle.config.location>
     <checkstyle.header.file>${basedir}/resources/reporting/license.txt</checkstyle.header.file>
     <jdk.version>17</jdk.version>
+    <revision>2.0.0</revision>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -480,7 +482,7 @@
             <aggregate>true</aggregate>
             <licenseSets>
               <licenseSet>
-                <header>${project.basedir}/resources/license/header.txt</header>
+                <header>${maven.multiModuleProjectDirectory}/resources/license/header.txt</header>
                 <includes>
                   <include>pom.xml</include>
                   <include>src/main/java/**/*.java</include>

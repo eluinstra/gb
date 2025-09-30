@@ -26,3 +26,7 @@
 	path = file-server-docker
 	url = git@github.com:eluinstra/file-server-docker.git
 	branch = dev
+[submodule "documentation"]
+	path = documentation
+	url = git@github.com:eluinstra/file-server-documentation.git
+	branch = dev

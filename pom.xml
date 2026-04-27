@@ -58,12 +58,12 @@
       <dependency>
         <groupId>commons-cli</groupId>
         <artifactId>commons-cli</artifactId>
-        <version>1.10.0</version>
+        <version>1.11.0</version>
       </dependency>
       <dependency>
         <groupId>commons-codec</groupId>
         <artifactId>commons-codec</artifactId>
-        <version>1.19.0</version>
+        <version>1.21.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -73,47 +73,47 @@
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
-        <version>2.20.0</version>
+        <version>2.21.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.17.0</version>
+        <version>3.20.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-core</artifactId>
-        <version>4.0.9</version>
+        <version>4.2.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-features-logging</artifactId>
-        <version>4.0.9</version>
+        <version>4.2.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-        <version>4.0.9</version>
+        <version>4.2.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-frontend-jaxws</artifactId>
-        <version>4.0.9</version>
+        <version>4.2.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-rs-service-description-openapi-v3</artifactId>
-        <version>4.0.9</version>
+        <version>4.2.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-transports-http</artifactId>
-        <version>4.0.9</version>
+        <version>4.2.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-transports-http-jetty</artifactId>
-        <version>4.0.9</version>
+        <version>4.2.0</version>
       </dependency>
       <dependency>
         <groupId>com.lmax</groupId>
@@ -123,57 +123,67 @@
       <dependency>
         <groupId>org.flywaydb</groupId>
         <artifactId>flyway-core</artifactId>
-        <version>11.8.2</version>
+        <version>12.4.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.flywaydb</groupId>
+        <artifactId>flyway-database-hsqldb</artifactId>
+        <version>12.4.0</version>
       </dependency>
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
-        <version>33.4.8-jre</version>
+        <version>33.6.0-jre</version>
       </dependency>
       <dependency>
         <groupId>com.zaxxer</groupId>
         <artifactId>HikariCP</artifactId>
-        <version>6.2.1</version>
+        <version>7.0.2</version>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>
         <artifactId>jackson-datatype-jdk8</artifactId>
-        <version>2.18.4</version>
+        <version>2.21.2</version>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>
         <artifactId>jackson-datatype-jsr310</artifactId>
-        <version>2.18.4</version>
+        <version>2.21.2</version>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.jakarta.rs</groupId>
         <artifactId>jackson-jakarta-rs-json-provider</artifactId>
-        <version>2.18.4</version>
+        <version>2.21.2</version>
       </dependency>
       <dependency>
         <groupId>jakarta.xml.bind</groupId>
         <artifactId>jakarta.xml.bind-api</artifactId>
-        <version>4.0.2</version>
+        <version>4.0.5</version>
       </dependency>
       <dependency>
         <groupId>jakarta.xml.ws</groupId>
         <artifactId>jakarta.xml.ws-api</artifactId>
-        <version>4.0.2</version>
+        <version>4.0.3</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty.ee10</groupId>
+        <artifactId>jetty-ee10-webapp</artifactId>
+        <version>12.1.6</version>
       </dependency>
       <dependency>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-jmx</artifactId>
-        <version>11.0.25</version>
+        <version>12.1.6</version>
       </dependency>
       <dependency>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-security</artifactId>
-        <version>11.0.25</version>
+        <version>12.1.6</version>
       </dependency>
       <dependency>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-server</artifactId>
-        <version>11.0.25</version>
+        <version>12.1.6</version>
         <exclusions>
           <exclusion>
             <groupId>org.eclipse.jetty.orbit</groupId>
@@ -184,32 +194,22 @@
       <dependency>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-util</artifactId>
-        <version>11.0.25</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.jetty</groupId>
-        <artifactId>jetty-webapp</artifactId>
-        <version>11.0.25</version>
+        <version>12.1.6</version>
       </dependency>
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-core</artifactId>
-        <version>2.24.3</version>
+        <version>2.25.4</version>
       </dependency>
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-slf4j-impl</artifactId>
-        <version>2.24.3</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-slf4j-impl</artifactId>
-        <version>2.24.3</version>
+        <version>2.25.4</version>
       </dependency>
       <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
-        <version>1.18.38</version>
+        <version>1.18.46</version>
       </dependency>
       <dependency>
         <groupId>com.querydsl</groupId>
@@ -234,27 +234,27 @@
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-context</artifactId>
-        <version>6.2.8</version>
+        <version>6.2.18</version>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-context-support</artifactId>
-        <version>6.2.8</version>
+        <version>6.2.18</version>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-jdbc</artifactId>
-        <version>6.2.8</version>
+        <version>6.2.18</version>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-jms</artifactId>
-        <version>6.2.8</version>
+        <version>6.2.18</version>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-web</artifactId>
-        <version>6.2.8</version>
+        <version>6.2.18</version>
       </dependency>
       <dependency>
         <groupId>org.webjars</groupId>
@@ -280,7 +280,7 @@
       <dependency>
         <groupId>io.vavr</groupId>
         <artifactId>vavr</artifactId>
-        <version>0.10.6</version>
+        <version>1.0.1</version>
       </dependency>
       <dependency>
         <groupId>com.ibm.db2.jcc</groupId>
@@ -292,13 +292,11 @@
         <groupId>org.hsqldb</groupId>
         <artifactId>hsqldb</artifactId>
         <version>2.7.4</version>
-        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>jakarta.servlet</groupId>
         <artifactId>jakarta.servlet-api</artifactId>
-        <version>5.0.0</version>
-        <scope>provided</scope>
+        <version>6.1.0</version>
       </dependency>
       <dependency>
         <groupId>org.mariadb.jdbc</groupId>
@@ -309,7 +307,7 @@
       <dependency>
         <groupId>com.microsoft.sqlserver</groupId>
         <artifactId>mssql-jdbc</artifactId>
-        <version>11.2.3.jre17</version>
+        <version>13.4.0.jre11</version>
         <scope>provided</scope>
       </dependency>
       <!-- <dependency>
@@ -321,7 +319,7 @@
       <dependency>
         <groupId>com.oracle.database.jdbc</groupId>
         <artifactId>ojdbc11</artifactId>
-        <version>23.7.0.25.01</version>
+        <version>23.8.0.25.04</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
@@ -333,43 +331,43 @@
       <dependency>
         <groupId>com.sun.xml.bind</groupId>
         <artifactId>jaxb-impl</artifactId>
-        <version>4.0.5</version>
+        <version>4.0.6</version>
         <scope>runtime</scope>
       </dependency>
       <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
-        <version>3.27.3</version>
+        <version>3.27.7</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-vavr</artifactId>
-        <version>0.4.3</version>
+        <version>0.5.0</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-api</artifactId>
-        <version>5.12.2</version>
+        <version>6.0.3</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-engine</artifactId>
-        <version>5.12.2</version>
+        <version>6.0.3</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-params</artifactId>
-        <version>5.12.2</version>
+        <version>6.0.3</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>5.18.0</version>
+        <version>5.23.0</version>
         <scope>test</scope>
       </dependency>
     </dependencies>
@@ -429,7 +427,7 @@
         <plugin>
           <groupId>org.owasp</groupId>
           <artifactId>dependency-check-maven</artifactId>
-          <version>12.1.3</version>
+          <version>12.2.1</version>
           <executions>
             <execution>
               <goals>
@@ -441,7 +439,7 @@
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.13</version>
+          <version>0.8.14</version>
           <executions>
             <execution>
               <goals>
@@ -465,12 +463,12 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>jaxb2-maven-plugin</artifactId>
-          <version>3.3.0</version>
+          <version>4.1.0</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>jdepend-maven-plugin</artifactId>
-          <version>2.1</version>
+          <version>2.2.0</version>
         </plugin>
         <plugin>
           <groupId>com.mycila</groupId>
@@ -535,7 +533,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.14.0</version>
+          <version>3.15.0</version>
           <configuration>
             <source>${jdk.version}</source>
             <target>${jdk.version}</target>
@@ -544,7 +542,7 @@
               <path>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
-                <version>1.18.38</version>
+                <version>1.18.46</version>
               </path>
             </annotationProcessorPaths>
           </configuration>
@@ -552,7 +550,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.4.2</version>
+          <version>3.5.0</version>
           <configuration>
             <archive>
               <manifest>
@@ -572,7 +570,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.11.3</version>
+          <version>3.12.0</version>
           <configuration>
             <source>${jdk.version}</source>
             <doclint>none</doclint>
@@ -586,7 +584,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.27.0</version>
+          <version>3.28.0</version>
           <configuration>
             <linkXref>true</linkXref>
             <targetJdk>${jdk.version}</targetJdk>
@@ -595,7 +593,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.6.0</version>
+          <version>3.6.2</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -610,12 +608,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-report-plugin</artifactId>
-          <version>3.5.2</version>
+          <version>3.5.5</version>
         </plugin>
         <plugin>
           <groupId>com.github.spotbugs</groupId>
           <artifactId>spotbugs-maven-plugin</artifactId>
-          <version>4.8.6.6</version>
+          <version>4.9.8.3</version>
           <configuration>
             <spotbugsXmlOutputDirectory>${basedir}/target</spotbugsXmlOutputDirectory>
             <xmlOutput>true</xmlOutput>
@@ -628,7 +626,7 @@
               <plugin>
                 <groupId>com.h3xstream.findsecbugs</groupId>
                 <artifactId>findsecbugs-plugin</artifactId>
-                <version>1.13.0</version>
+                <version>1.14.0</version>
               </plugin>
             </plugins>
           </configuration>
@@ -636,7 +634,7 @@
         <plugin>
           <groupId>com.diffplug.spotless</groupId>
           <artifactId>spotless-maven-plugin</artifactId>
-          <version>2.43.0</version>
+          <version>3.4.0</version>
           <configuration>
             <formats>
               <format>
@@ -703,7 +701,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>taglist-maven-plugin</artifactId>
-          <version>3.2.1</version>
+          <version>3.2.2</version>
           <configuration>
             <tags>
               <tag>TODO</tag>
@@ -717,7 +715,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>versions-maven-plugin</artifactId>
-          <version>2.18.0</version>
+          <version>2.21.0</version>
           <configuration>
             <excludes>
               <exclude>com.lmax:disruptor</exclude>

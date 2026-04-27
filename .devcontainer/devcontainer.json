@@ -24,7 +24,9 @@
 	"forwardPorts": [
 		3000,
 		5432,
-		8080
+		8000,
+		8080,
+		8443
 	],
 	"customizations": {
 		"vscode": {

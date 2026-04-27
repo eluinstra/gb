@@ -51,7 +51,7 @@
     <checkstyle.config.location>${basedir}/resources/reporting/checkstyle.xml</checkstyle.config.location>
     <checkstyle.header.file>${basedir}/resources/reporting/license.txt</checkstyle.header.file>
     <jdk.version>17</jdk.version>
-    <revision>2.1.0-SNAPSHOT</revision>
+    <revision>2.1.0</revision>
   </properties>
   <dependencyManagement>
     <dependencies>

@@ -1,0 +1,40 @@
+# Maven
+target/
+*.jar
+*.war
+*.ear
+*.class
+checkstyle-cachefile
+
+# Build / logs
+*.log
+nohup.out
+
+# IDE - Eclipse
+.settings/
+.classpath
+.project
+.factorypath
+.findbugs
+
+# IDE - IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# IDE - VS Code
+.vscode/
+!.vscode/settings.json
+
+# OS / misc
+.DS_Store
+*~
+#*
+.#*
+
+# Secrets / local config
+*.keystore
+*.jks
+*.p12
+application-local.properties

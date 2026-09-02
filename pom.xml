@@ -50,6 +50,15 @@
     <checkstyle.cache.file>${project.build.directory}/checkstyle-cachefile</checkstyle.cache.file>
     <checkstyle.config.location>${basedir}/resources/reporting/checkstyle.xml</checkstyle.config.location>
     <checkstyle.header.file>${basedir}/resources/reporting/license.txt</checkstyle.header.file>
+    <!-- Baseline of pre-existing checkstyle errors (see per-module overrides).
+         checkstyle:check fails the build only if violations EXCEED this number, so
+         new violations are blocked while existing debt can be reduced gradually. -->
+    <checkstyle.maxAllowedViolations>0</checkstyle.maxAllowedViolations>
+    <!-- The root aggregator has no source; the 6 modules override this to false. -->
+    <checkstyle.skip>true</checkstyle.skip>
+    <!-- Classes excluded from checkstyle validation (Querydsl-backed entities).
+         Comma-delimited Ant patterns, matched against each source file path. -->
+    <checkstyle.excludes>**/QFile.java,**/QUser.java,**/QUploadTask.java,**/QDownloadTask.java</checkstyle.excludes>
     <jdk.version>17</jdk.version>
     <revision>2.2.0</revision>
   </properties>
@@ -519,11 +528,13 @@
             <headerLocation>${basedir}/resources/reporting/license.txt</headerLocation>
             <linkXRef>true</linkXRef>
             <configLocation>${basedir}/resources/reporting/checkstyle.xml</configLocation>
+            <excludes>${checkstyle.excludes}</excludes>
+            <maxAllowedViolations>${checkstyle.maxAllowedViolations}</maxAllowedViolations>
           </configuration>
           <executions>
             <execution>
-              <!-- <id>validate</id> -->
-              <!-- <phase>validate</phase> -->
+              <id>validate</id>
+              <phase>validate</phase>
               <goals>
                 <goal>check</goal>
               </goals>
@@ -732,5 +743,14 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <!-- Active plugin bindings inherited by every module. This is what makes
+         checkstyle:check actually run during the build (see pluginManagement above
+         for the configuration, and the module <reporting> sections for reports). -->
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+      </plugin>
+    </plugins>
   </build>
 </project>

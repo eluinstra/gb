@@ -5,25 +5,33 @@
 		"type=bind,source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh/,target=/home/vscode/.ssh,readonly"
 	],
 	"features": {
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
-		"ghcr.io/devcontainers/features/node:1": {},
-		"ghcr.io/devcontainers/features/java:1": {
+		"ghcr.io/devcontainers/features/docker-in-docker:4.1.0": {},
+		"ghcr.io/devcontainers/features/node:2.1.0": {},
+		"ghcr.io/devcontainers/features/java:1.8.2": {
 			"installMaven": true,
 			"version": "17",
-			"additionalVersions": "21.0.7-ms"
+			"jdkDistro": "tem",
+			"additionalVersions": "21.0.7-tem"
 		},
 		"ghcr.io/devcontainers-extra/features/apt-packages:1": {
 			"packages": [
 				"libxtst6",
 				"libxi6",
 				"libxrender1",
-				"graphviz"
+				"graphviz",
+				"tmux"
 			]
 		}
 	},
+	"containerUser": "vscode",
+	"remoteUser": "vscode",
+  "postCreateCommand": "curl -LsSf https://astral.sh/uv/install.sh | sh && npm install -g @openhands/agent-canvas",
+  "postStartCommand": "tmux has-session -t canvas 2>/dev/null || (tmux new-session -d -s canvas && tmux send-keys -t canvas 'agent-canvas --port 7002' Enter)",
+	"appPort": ["7002:7002"],
 	"forwardPorts": [
 		3000,
 		5432,
+		7002,
 		8000,
 		8080,
 		8443
@@ -33,7 +41,7 @@
 			"settings": {
 				"java.configuration.updateBuildConfiguration": "automatic",
 				"java.compile.nullAnalysis.mode": "automatic",
-				"sonarlint.ls.javaHome": "/usr/local/sdkman/candidates/java/21.0.7-ms/"
+				"sonarlint.ls.javaHome": "/usr/local/sdkman/candidates/java/21.0.7-tem/"
 			},
 			"extensions": [
 				// "ms-azuretools.vscode-docker",
@@ -53,6 +61,5 @@
 				"ms-ossdata.vscode-postgresql"
 			]
 		}
-	},
-	"remoteUser": "vscode"
+	}
 }

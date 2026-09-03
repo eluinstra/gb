@@ -74,10 +74,9 @@ mvn -pl file-client-core test -Dtest=VirtualPathTest
 
 Tests use JUnit 5, AssertJ and Mockito. `mvn verify` runs the full test suite with
 JaCoCo coverage, and **Checkstyle** is enforced on every build (bound to the
-`validate` phase). The build tolerates a per-module baseline of pre-existing
-Checkstyle errors and fails if a change introduces a new one — lower the module's
-`checkstyle.maxAllowedViolations` as you fix violations. (PMD and SpotBugs are
-configured but not yet wired into the build — see [AGENTS.md](AGENTS.md).)
+`validate` phase). The codebase is currently Checkstyle-clean, so the build fails
+on any new violation. (PMD and SpotBugs are configured but not yet wired into the
+build — see [AGENTS.md](AGENTS.md).)
 
 ## Running the executables
 

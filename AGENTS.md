@@ -68,11 +68,13 @@ no sources and skips it). The ruleset is `resources/reporting/checkstyle.xml`
 (same file mirrored per module; the canonical copy is at the repo root under
 `reporting/checkstyle.xml`).
 
-The build uses a **violation baseline**: each module's `pom.xml` sets
-`<checkstyle.maxAllowedViolations>` to the number of pre-existing `error`-severity
-violations. `checkstyle:check` **fails the build if you add a new violation**, but
-tolerates the existing debt. If you fix violations, **lower that number** so the
-ceiling keeps tightening. To temporarily disable it: `mvn -Dcheckstyle.skip=true`.
+The codebase is currently **Checkstyle-clean**: each module's `pom.xml` sets
+`<checkstyle.maxAllowedViolations>` to `0`, so `checkstyle:check` **fails the build
+on any violation**. (If you ever need to tolerate a burst of pre-existing debt,
+raise that number and lower it again as you fix them.) The generated QueryDSL
+Q-classes (`QFile`, `QUser`, `QUploadTask`, `QDownloadTask`) are excluded via the
+`checkstyle.excludes` property in the root `pom.xml`. To temporarily disable the
+check: `mvn -Dcheckstyle.skip=true`.
 
 > **Known gap:** PMD and SpotBugs are configured in the root `pom.xml` but are
 > *not* bound to any build phase, so they do not run in CI. Checkstyle is the only

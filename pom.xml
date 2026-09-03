@@ -50,9 +50,9 @@
     <checkstyle.cache.file>${project.build.directory}/checkstyle-cachefile</checkstyle.cache.file>
     <checkstyle.config.location>${basedir}/resources/reporting/checkstyle.xml</checkstyle.config.location>
     <checkstyle.header.file>${basedir}/resources/reporting/license.txt</checkstyle.header.file>
-    <!-- Baseline of pre-existing checkstyle errors (see per-module overrides).
-         checkstyle:check fails the build only if violations EXCEED this number, so
-         new violations are blocked while existing debt can be reduced gradually. -->
+    <!-- Violation ceiling. The codebase is Checkstyle-clean, so this is 0 and the
+         build fails on any violation. Raise it only to absorb a burst of pre-existing
+         debt, then lower it back as it is fixed (see per-module overrides). -->
     <checkstyle.maxAllowedViolations>0</checkstyle.maxAllowedViolations>
     <!-- The root aggregator has no source; the 6 modules override this to false. -->
     <checkstyle.skip>true</checkstyle.skip>

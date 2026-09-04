@@ -57,28 +57,42 @@ mvn -pl file-server -am -DskipTests package
 ```
 
 `mvn verify` is the source of truth for CI and should be green before a change
-is considered done: it runs **Checkstyle**, compiles all modules, runs the test
-suite, and produces a JaCoCo coverage report.
+is considered done: it runs **Checkstyle, PMD and SpotBugs**, compiles all
+modules, runs the test suite, and produces a JaCoCo coverage report.
 
-### Static analysis (Checkstyle)
+### Static analysis (Checkstyle, PMD, SpotBugs)
 
-Checkstyle **runs on every build** (`checkstyle:check`, bound to the `validate`
-phase in the root `pom.xml`, inherited by all six modules; the root aggregator has
-no sources and skips it). The ruleset is `resources/reporting/checkstyle.xml`
-(same file mirrored per module; the canonical copy is at the repo root under
-`reporting/checkstyle.xml`).
+All three static-analysis tools run on every build, are inherited by all six
+modules (the root aggregator has no sources and skips them via `*.skip`), and
+**fail the build on findings**.
 
-The codebase is currently **Checkstyle-clean**: each module's `pom.xml` sets
-`<checkstyle.maxAllowedViolations>` to `0`, so `checkstyle:check` **fails the build
-on any violation**. (If you ever need to tolerate a burst of pre-existing debt,
-raise that number and lower it again as you fix them.) The generated QueryDSL
-Q-classes (`QFile`, `QUser`, `QUploadTask`, `QDownloadTask`) are excluded via the
-`checkstyle.excludes` property in the root `pom.xml`. To temporarily disable the
-check: `mvn -Dcheckstyle.skip=true`.
+| Tool | Goal | Phase | Baseline | What it gates |
+|------|------|-------|----------|---------------|
+| Checkstyle | `checkstyle:check` | `validate` | 0 violations | Style; hand-written `src/main/java` only |
+| PMD | `pmd:check` | `process-classes` | 0 violations | Static analysis (unused code, style, bugs) |
+| SpotBugs | `spotbugs:check` | `process-classes` | FindSecBugs SECURITY baseline | Security findings (SSRF, path traversal, CRLF injection, weak crypto, …) |
 
-> **Known gap:** PMD and SpotBugs are configured in the root `pom.xml` but are
-> *not* bound to any build phase, so they do not run in CI. Checkstyle is the only
-> static-analysis gate that is actually enforced today.
+- **Checkstyle** is Checkstyle-clean: each module's `pom.xml` sets
+  `<checkstyle.maxAllowedViolations>` to `0`. Config is `resources/reporting/checkstyle.xml`
+  (mirrored per module; canonical copy at repo root `reporting/checkstyle.xml`).
+  It lints only hand-written main sources (`src/main/java` via `sourceDirectories`),
+  so generated code is never linted and test sources (which were never linted) are
+  out of scope.
+- **PMD** is also clean (0). It runs at `process-classes` (post-compile) because
+  its usage analysis needs the compiled classpath; pre-compile it reports false
+  `UnusedPrivateMethod` findings. Generated sources are excluded. A few
+  value-object classes use the project's deliberate fluent static-import style and
+  carry a targeted `@SuppressWarnings("PMD.TooManyStaticImports")`.
+- **SpotBugs** runs FindSecBugs (the `findsecbugs` plugin) with a SECURITY include
+  filter (`resources/reporting/spotbugs-security-include.xml`) and suppresses the
+  pre-existing findings via a per-module baseline
+  (`resources/reporting/spotbugs-security-suppressions.xml`). It gates on **new**
+  security findings only. The baseline still holds ~114 pre-existing security
+  findings (7 high-priority: SSRF, path traversal, weak MD5, XSS) — work through
+  the suppressions file to retire them, deleting each `<Match>` as you fix it.
+
+To temporarily disable a gate: `mvn -Dcheckstyle.skip=true`,
+`-Dpmd.skip=true`, or `-Dspotbugs.skip=true`.
 
 ### Submodules (important for agents)
 

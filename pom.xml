@@ -56,9 +56,12 @@
     <checkstyle.maxAllowedViolations>0</checkstyle.maxAllowedViolations>
     <!-- The root aggregator has no source; the 6 modules override this to false. -->
     <checkstyle.skip>true</checkstyle.skip>
-    <!-- Classes excluded from checkstyle validation (Querydsl-backed entities).
-         Comma-delimited Ant patterns, matched against each source file path. -->
-    <checkstyle.excludes>**/QFile.java,**/QUser.java,**/QUploadTask.java,**/QDownloadTask.java</checkstyle.excludes>
+    <!-- Classes excluded from checkstyle validation (Querydsl-backed entities), plus
+         any plugin-generated sources (JAXB in the gb modules), which are never linted. -->
+    <checkstyle.excludes>**/QFile.java,**/QUser.java,**/QUploadTask.java,**/QDownloadTask.java,**/generated-sources/**</checkstyle.excludes>
+    <!-- The root aggregator has no source; the 6 modules override PMD/SpotBugs skip to false. -->
+    <pmd.skip>true</pmd.skip>
+    <spotbugs.skip>true</spotbugs.skip>
     <jdk.version>17</jdk.version>
     <revision>2.2.0</revision>
   </properties>
@@ -530,6 +533,13 @@
             <configLocation>${basedir}/resources/reporting/checkstyle.xml</configLocation>
             <excludes>${checkstyle.excludes}</excludes>
             <maxAllowedViolations>${checkstyle.maxAllowedViolations}</maxAllowedViolations>
+            <!-- Lint only hand-written main sources. Generated code (JAXB in the gb
+                 modules, QueryDSL Q-classes) is never linted, and scoping to
+                 src/main/java keeps the result independent of goal ordering
+                 relative to code generation. (Test sources were never linted.) -->
+            <sourceDirectories>
+              <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+            </sourceDirectories>
           </configuration>
           <executions>
             <execution>
@@ -599,7 +609,26 @@
           <configuration>
             <linkXref>true</linkXref>
             <targetJdk>${jdk.version}</targetJdk>
+            <!-- jaxb2 registers target/generated-sources/jaxb as a compile source root;
+                 exclude that whole root so PMD only analyzes hand-written sources.
+                 `excludes` patterns are relative to each source root, so they cannot
+                 reliably match the jaxb root; `excludeRoots` targets whole roots. -->
+            <excludeRoots>
+              <excludeRoot>${project.basedir}/target/generated-sources/jaxb</excludeRoot>
+            </excludeRoots>
           </configuration>
+          <executions>
+            <execution>
+              <id>validate</id>
+              <!-- process-classes (post-compile): PMD's usage analysis needs the compiled
+                   classpath; pre-compile at `validate` yields false-positive
+                   UnusedPrivateMethod findings. Matches the SpotBugs phase below. -->
+              <phase>process-classes</phase>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -632,7 +661,8 @@
             <effort>Max</effort>
             <threshold>Low</threshold>
             <failOnError>true</failOnError>
-            <includeFilterFile>${session.executionRootDirectory}/spotbugs-security-include.xml</includeFilterFile>
+            <includeFilterFile>${basedir}/resources/reporting/spotbugs-security-include.xml</includeFilterFile>
+            <excludeFilterFile>${basedir}/resources/reporting/spotbugs-security-suppressions.xml</excludeFilterFile>
             <plugins>
               <plugin>
                 <groupId>com.h3xstream.findsecbugs</groupId>
@@ -641,6 +671,16 @@
               </plugin>
             </plugins>
           </configuration>
+          <executions>
+            <execution>
+              <id>validate</id>
+              <!-- process-classes: SpotBugs analyzes compiled classes, which do not exist at `validate`. -->
+              <phase>process-classes</phase>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
         <plugin>
           <groupId>com.diffplug.spotless</groupId>
@@ -743,13 +783,23 @@
         </plugin>
       </plugins>
     </pluginManagement>
-    <!-- Active plugin bindings inherited by every module. This is what makes
-         checkstyle:check actually run during the build (see pluginManagement above
-         for the configuration, and the module <reporting> sections for reports). -->
+    <!-- Active plugin bindings inherited by every module. This is what makes the
+         static-analysis checks actually run during the build (see pluginManagement
+         above for configuration/phase, and the module <reporting> sections for
+         reports). Checkstyle runs at `validate`; PMD + SpotBugs at `process-classes`
+         (post-compile), because both analyse compiled output and need the classpath. -->
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>

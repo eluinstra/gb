@@ -1,0 +1,44 @@
+name: CI (scheduled)
+
+# Scheduled build independent of pushes: re-validates the pinned `dev` state on
+# a fixed cadence. Catches external/transitive dependency drift and a stale
+# submodule pointer that would otherwise go untested until the next human push.
+# The logic mirrors `ci.yml`; only the trigger differs.
+on:
+  schedule:
+    # Every Monday at 06:00 UTC.
+    - cron: "0 6 * * 1"
+  # Allow a manual kick from the UI (Actions -> CI (scheduled) -> Run workflow).
+  workflow_dispatch:
+
+concurrency:
+  group: ci-scheduled-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build & test (JDK 17)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+
+      - name: Checkstyle, build, test & coverage (JaCoCo)
+        run: mvn -B verify
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: "**/target/surefire-reports/"
+          if-no-files-found: ignore

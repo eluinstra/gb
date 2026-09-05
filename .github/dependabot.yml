@@ -1,0 +1,31 @@
+# Dependabot — Maven dependency updates.
+#
+# All dependency versions for the buildable modules are centralized in this
+# repo's root pom.xml (dev.luin.file:file <dependencyManagement>); the six code
+# submodules inherit from it. So scanning the root directory is enough — Dependabot
+# updates the versions there and each bump is validated by the `ci.yml` build
+# (Checkstyle + PMD + SpotBugs + tests + JaCoCo) on the resulting PR.
+#
+# NOTE: this repo uses git submodules, but the security-critical dependency
+# versions (jackson, log4j, postgres, ...) all live in the parent pom, so there
+# is nothing to configure per submodule here.
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    # Label the PRs so they're easy to filter and batch-review.
+    labels:
+      - "dependencies"
+      - "security"
+    # Bundle all Maven updates into a single PR per cycle. Keeps PR/CI churn low
+    # for an aggregator that manages ~40 managed dependencies; the PR still shows
+    # a table of every version change for review.
+    groups:
+      maven:
+        dependency-type: "all"
+        patterns:
+          - "*"
+    open-pull-requests-limit: 1

@@ -94,6 +94,22 @@ modules (the root aggregator has no sources and skips them via `*.skip`), and
 To temporarily disable a gate: `mvn -Dcheckstyle.skip=true`,
 `-Dpmd.skip=true`, or `-Dspotbugs.skip=true`.
 
+### CI & automation
+
+- **CI** (`.github/workflows/ci.yml`) runs `mvn -B verify` (Checkstyle, PMD,
+  SpotBugs, tests, JaCoCo) with JDK 17 on push/PR to `dev`, with recursive
+  submodule checkout. A `ci-scheduled.yml` re-runs the same build weekly on `dev`
+  (plus a manual trigger) to keep the pinned state green independent of pushes.
+- **Dependabot** (`.github/dependabot.yml`) opens weekly Maven update PRs against
+  the **root** `pom.xml`, where all dependency versions are centralized
+  (`<dependencyManagement>`); each PR is validated by the CI build. Do **not**
+  hand-edit managed dependency versions to "fix" a bump that Dependabot will
+  also propose — review/merge its PR instead. Submodule poms inherit the parent,
+  so no per-submodule Dependabot config is needed.
+- This is a **submodule aggregator**: an automated agent that reacts to pushes
+  must target each submodule repo (separate GitHub repos, each with its own
+  `dev`), not just this parent.
+
 ### Submodules (important for agents)
 
 - `git submodule update --init --recursive` is required after a fresh clone before

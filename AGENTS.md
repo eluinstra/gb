@@ -124,8 +124,55 @@ To temporarily disable a gate: `mvn -Dcheckstyle.skip=true`,
 - Coverage is currently concentrated in `file-server-core`. The client-side modules
   had little/no tests; when touching them, add focused unit tests for the value
   objects and pure logic you change (no DB/network needed for those).
-- Integration behavior (real DB, HTTP server, TLS) is not covered by unit tests;
-  see the docs `example.md` and `file-server-docker` for manual scenarios.
+- Integration behavior (real DB, Jetty, TLS/mTLS) is **not** covered by unit tests;
+  it is manual only. See below.
+
+### Manual mTLS / integration testing
+
+There is no automated integration test for the live stack, so verify TLS changes
+(mTLS auth, download/upload over HTTPS) by hand.
+
+**Authentication is mTLS:** the client presents a certificate that the server's
+trust store must trust, and each user's certificate is registered on the server
+(`createUser`) before that user can up-/download files. The upload base URL is
+`https://localhost:8443/files/upload`; a file's download URL is returned by the
+server (in the `uploadFile` response `path` / the GB `getExternalDataReference`
+`senderUrl`), so always use the URL the server hands back.
+
+**Test artifacts (all checked in; PKCS12 keystores use the password `password`):**
+
+| File | Where | Purpose |
+|------|-------|---------|
+| server keystore | `file-server-core/resources/ssl/keystore.p12` (alias `localhost`, a private-key entry) | the cert the server serves on `https://localhost:8443` |
+| server truststore | `file-server-core/resources/ssl/truststore.p12` | the client cert(s) the server will trust |
+| client cert | `file-server-core/resources/ssl/localhost.pem` (certificate only) | the client certificate presented during mTLS / registered per user |
+| client key bundle | `file-server-core/resources/ssl/keystore.pem` (cert + private key in PEM) | use `--cert`/`--key` if you need the key form |
+
+**Fastest path — the Docker demo** (server + client + Postgres, certs pre-wired):
+
+```bash
+cd file-server-docker/examples/demo-pg
+docker compose up
+```
+
+Then follow the numbered flow in `file-server-docker/README.md` (or `documentation/docs/example.md`):
+create user with its certificate → `uploadFile` → `getExternalDataReference` →
+`downloadFile`. Use SoapUI (`file-server-soapui-project.xml` / `file-client-soapui-project.xml`)
+or the VS Code REST Client files (`file-server.rest` / `file-client.rest`).
+
+**curl against a locally started server** — because the server cert is
+self-signed and the endpoint requires a client cert, trust the server cert
+(`--cacert`) *and* present the client cert:
+
+```bash
+curl --cacert <server-crt.pem> \
+     --cert file-server-core/resources/ssl/localhost.pem \
+     "<download-url-returned-by-the-server>" -o file.txt
+```
+
+(For the full cert + key PEM bundle, use `--cert <cert>` `--key <key>` instead of
+a single `--cert`. Use `-k` only as a throwaway way to skip server-cert trust while
+debugging — never as the intended configuration.)
 
 ## Where things are documented
 

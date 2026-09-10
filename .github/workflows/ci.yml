@@ -30,6 +30,23 @@ jobs:
       - name: Checkstyle, build, test & coverage (JaCoCo)
         run: mvn -B verify
 
+      - name: Smoke test (file-server + file-client)
+        run: |
+          chmod +x smoke-test.sh
+          ./smoke-test.sh
+        env:
+          # On failure, smoke-test.sh copies its working dir (server.log,
+          # client.log, files, ...) here; uploaded as an artifact below.
+          SMOKE_LOG_DIR: ${{ github.workspace }}/smoke-logs
+
+      - name: Upload smoke test logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-test-logs
+          path: smoke-logs/
+          if-no-files-found: ignore
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4

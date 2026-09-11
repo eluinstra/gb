@@ -47,6 +47,23 @@ jobs:
           path: smoke-logs/
           if-no-files-found: ignore
 
+      - name: Smoke test (file-client vs file-server 2.2.0 in docker)
+        run: |
+          chmod +x file-client/smoke-test.sh
+          file-client/smoke-test.sh
+        env:
+          # On failure, smoke-test.sh copies its working dir (client.log, curl.err,
+          # files, ...) + the file-server container log here; uploaded below.
+          SMOKE_LOG_DIR: ${{ github.workspace }}/smoke-logs-file-client
+
+      - name: Upload file-client smoke test logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-test-logs-file-client
+          path: smoke-logs-file-client/
+          if-no-files-found: ignore
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4

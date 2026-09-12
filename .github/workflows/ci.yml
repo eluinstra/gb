@@ -66,9 +66,18 @@ jobs:
 
       - name: Smoke test (file-server vs file-client 2.2.0 in docker)
         # The inverse of the previous step: runs the file-server built from this repo
-        # locally and drives it with a released file-client 2.2.0 (docker, host network).
+        # locally and drives it with a released file-client 2.2.0 (docker).
         # Note: file-server/smoke-test.sh reuses the shaded file-server jar the
         # `mvn -B verify` step above already built, so it does not rebuild the server.
+        #
+        # Linux-only: the released file-client runs in docker with `network_mode: host` so
+        # it reaches the host server at localhost:8443. That is required (not just a
+        # convenience): the released client's mTLS rejects any other hostname and its
+        # hostname verification can't be disabled via the released jar's config, so
+        # localhost (matching the server cert's CN=localhost) is the only working path.
+        # network_mode: host is unsupported on Docker Desktop for Windows/macOS, so this
+        # step is skipped there (it still runs on every CI/Linux runner).
+        if: runner.os == 'Linux'
         run: |
           chmod +x file-server/smoke-test.sh
           file-server/smoke-test.sh
@@ -78,7 +87,7 @@ jobs:
           SMOKE_LOG_DIR: ${{ github.workspace }}/smoke-logs-file-server
 
       - name: Upload file-server smoke test logs
-        if: always()
+        if: always() && runner.os == 'Linux'
         uses: actions/upload-artifact@v4
         with:
           name: smoke-test-logs-file-server

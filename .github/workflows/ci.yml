@@ -64,6 +64,27 @@ jobs:
           path: smoke-logs-file-client/
           if-no-files-found: ignore
 
+      - name: Smoke test (file-server vs file-client 2.2.0 in docker)
+        # The inverse of the previous step: runs the file-server built from this repo
+        # locally and drives it with a released file-client 2.2.0 (docker, host network).
+        # Note: file-server/smoke-test.sh reuses the shaded file-server jar the
+        # `mvn -B verify` step above already built, so it does not rebuild the server.
+        run: |
+          chmod +x file-server/smoke-test.sh
+          file-server/smoke-test.sh
+        env:
+          # On failure, smoke-test.sh copies its working dir (server.log, curl.err,
+          # files, ...) + the file-client container log here; uploaded below.
+          SMOKE_LOG_DIR: ${{ github.workspace }}/smoke-logs-file-server
+
+      - name: Upload file-server smoke test logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-test-logs-file-server
+          path: smoke-logs-file-server/
+          if-no-files-found: ignore
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4

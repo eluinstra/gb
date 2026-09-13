@@ -90,6 +90,10 @@ modules (the root aggregator has no sources and skips them via `*.skip`), and
   security findings only. The baseline still holds ~114 pre-existing security
   findings (7 high-priority: SSRF, path traversal, weak MD5, XSS) — work through
   the suppressions file to retire them, deleting each `<Match>` as you fix it.
+  When adding a new `<Match>`, prefer a **class-level** one over a
+  lambda/method-specific one: SpotBugs filter `name`/`class` values are
+  **regexes**, and lambda method names are **mangled by the annotation
+  processor** (Lombok), so method-level matches are unreliable.
 
 To temporarily disable a gate: `mvn -Dcheckstyle.skip=true`,
 `-Dpmd.skip=true`, or `-Dspotbugs.skip=true`.

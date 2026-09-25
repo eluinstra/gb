@@ -1,19 +1,32 @@
 {
   "features": {
+    "ghcr.io/coder/devcontainer-features/code-server:2": {
+      "version": "2.0.0",
+      "resolved": "ghcr.io/coder/devcontainer-features/code-server@sha256:b8ccfa0a7620d8c60105f070aa920fdb30fef83b159b6b4a0d6441c4def59548",
+      "integrity": "sha256:b8ccfa0a7620d8c60105f070aa920fdb30fef83b159b6b4a0d6441c4def59548",
+      "dependsOn": [
+        "ghcr.io/devcontainers/features/common-utils:2"
+      ]
+    },
     "ghcr.io/devcontainers-extra/features/apt-packages:1": {
       "version": "1.0.6",
       "resolved": "ghcr.io/devcontainers-extra/features/apt-packages@sha256:55c54412112da81b9381e470cdbbe55278564950d1ff536ce925b1e8e096babd",
       "integrity": "sha256:55c54412112da81b9381e470cdbbe55278564950d1ff536ce925b1e8e096babd"
     },
-    "ghcr.io/devcontainers/features/docker-in-docker:4.1.0": {
-      "version": "4.1.0",
-      "resolved": "ghcr.io/devcontainers/features/docker-in-docker@sha256:7d979c4a36d595eb4ab79909caa3f396daf3b6152dcf38e8328ea4eff42206c7",
-      "integrity": "sha256:7d979c4a36d595eb4ab79909caa3f396daf3b6152dcf38e8328ea4eff42206c7"
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "version": "2.6.0",
+      "resolved": "ghcr.io/devcontainers/features/common-utils@sha256:836cd0dc8d0036367f7dbc63cbdae70f7d43f3819ca9daca637eeb1ca0d99611",
+      "integrity": "sha256:836cd0dc8d0036367f7dbc63cbdae70f7d43f3819ca9daca637eeb1ca0d99611"
     },
-    "ghcr.io/devcontainers/features/java:1.8.2": {
-      "version": "1.8.2",
-      "resolved": "ghcr.io/devcontainers/features/java@sha256:7d2fc86e0dad756209cd68da6b2b43e6149a5e07232a9f20663c42a8ca1563ad",
-      "integrity": "sha256:7d2fc86e0dad756209cd68da6b2b43e6149a5e07232a9f20663c42a8ca1563ad"
+    "ghcr.io/devcontainers/features/docker-in-docker:4.1.1": {
+      "version": "4.1.1",
+      "resolved": "ghcr.io/devcontainers/features/docker-in-docker@sha256:2b44bcb32e75d5a3c028479f7f957cf7d5e42d81761373025a8d501dd3748f88",
+      "integrity": "sha256:2b44bcb32e75d5a3c028479f7f957cf7d5e42d81761373025a8d501dd3748f88"
+    },
+    "ghcr.io/devcontainers/features/java:1.8.3": {
+      "version": "1.8.3",
+      "resolved": "ghcr.io/devcontainers/features/java@sha256:61a839211feda1e2a1f10646648a948e733e4d98d770f3a4b6698a3c5fc92abe",
+      "integrity": "sha256:61a839211feda1e2a1f10646648a948e733e4d98d770f3a4b6698a3c5fc92abe"
     },
     "ghcr.io/devcontainers/features/node:2.1.0": {
       "version": "2.1.0",

@@ -147,6 +147,41 @@ To temporarily disable a gate: `mvn -Dcheckstyle.skip=true`,
 - Integration behavior (real DB, Jetty, TLS/mTLS) is **not** covered by unit tests;
   it is manual only. See below.
 
+### Unit-testing the HTTP handler layer
+
+The resumable-upload handler tests
+(`dev.luin.file.server.core.server.resumable.*HandlerTest`) are the reference for
+mocking a `ResumableRequest`/`FSFile`/`FileSystem` and driving a handler. Gotchas
+discovered while writing them — all cost real debugging time:
+
+- **Vavr `Try` failure mode matters.** A `Try.peek(c)` whose consumer throws
+  *propagates* the exception, **but** the handlers wrap their body in
+  `flatMap(x -> ...)`, and Vavr's `flatMap` *catches* exceptions thrown inside its
+  function into a failed `Try`. So handler error paths (offset mismatch,
+  inconsistent length, append I/O error) surface as a **failed `Try`** whose
+  `getCause()` is a `ResumableException` — **not** a thrown exception. Assert with
+  `assertThat(result.isFailure()).isTrue()` +
+  `assertThat(result.getCause()).isInstanceOfSatisfying(ResumableException.class, e -> ...)`
+  rather than `assertThatThrownBy(...)`.
+- **Shared `@FieldDefaults` field mocks + `@TestInstance(PER_CLASS)` leak across tests.**
+  The mock is constructed once for the whole class, so `verify(...)` counts
+  invocations from *every* test. Add `@BeforeEach void reset() { reset(mockFs); }`
+  (and the same for any shared mock) to clear stubs + invocation records per test.
+- **Never build a mock inside a stub.** `when(x.findFile(...)).thenReturn(Option.of(file(...)))`
+  where `file()` itself calls `when(...)` triggers `UnfinishedStubbingException`.
+  Create the mock in a local first: `val file = file(...); when(...).thenReturn(Option.of(file));`
+- **Mockito: if one arg is a matcher, all must be.** `createEmptyFile(any(EmptyFSFile.class), user)`
+  is an `InvalidUseOfMatchersException`; use `eq(user)` (same for
+  `verify(...appendToFile(any(), new Length(42)))` → `eq(...)`).
+- **`ResumableRequest.getInputStream()` declares `throws IOException`.** Calling it
+  directly in `when(...)` setup won't compile; wrap the stub in `try { ... } catch
+  (IOException e) { throw new UncheckedIOException(e); }` (unreachable for a mock).
+- **`HttpException.getHeaders()` is a Vavr `HashMap`**, so `.get(name)` returns an
+  `Option<String>`, not the raw value — assert `.get(name).contains("100")` / `.isDefined()`.
+- `assertj-vavr` only exposes `isSuccess()`/`isFailure()`/`hasValueSatisfying(...)` for
+  `Try`, so for failure-cause assertions assert on `getCause()` with core AssertJ (no
+  static-import clash, keep only the core `assertThat`).
+
 ### Manual mTLS / integration testing
 
 There is no automated integration test for the live stack, so verify TLS changes
